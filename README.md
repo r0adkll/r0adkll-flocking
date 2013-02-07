@@ -11,44 +11,46 @@ This engine allows you set a custom value for each of the three rules allowing y
 that it wants
 
 ## Usage
-  
-    private FlockEngine engine;
-    
-    // Create Flocking Engine and initialize it with all
-    // the basic parameters
-    engine = new FlockEngine();
+  <pre lang="java"><code>
+  private FlockEngine engine;
+   
+  // Create Flocking Engine and initialize it with all
+  // the basic parameters
+  engine = new FlockEngine();
 		
-    /*
-     * Set the three Reynold flocking rules
-     */
-    engine.setAlignment(0.80f);
-    engine.setCohesion(0.65f);
-    engine.setSeparation(0.60f);
+  /*
+   * Set the three Reynold flocking rules
+   */
+  engine.setAlignment(0.80f);
+  engine.setCohesion(0.65f);
+  engine.setSeparation(0.60f);
 		
-    /*
-     * Set the boid interaction and seperation distances
-     */
-    engine.setInteractionRadius(30);
-    engine.setSeparationRadius(15);
+  /*
+   * Set the boid interaction and seperation distances
+   */
+  engine.setInteractionRadius(30);
+  engine.setSeparationRadius(15);
 		
-    // Set the boid speed limit
-    engine.setSpeedLimit(80);`
+  // Set the boid speed limit
+  engine.setSpeedLimit(80); 
+  </code></pre>        
 
 After creating the engine, you need to populate it with entities that implement the `Flockable` interface, here is my
 example from the sample project
 
-    // Initialize all the boids for the example
-    for(int i=0; i<BOID_AMOUNT; i++){
-      // Create New Boid
-      Boid bird = new Boid(image, new Vector2D(MathUtils.random(0, w), MathUtils.random(0, h)),
-                      						new Vector2D(MathUtils.random(-20, 20), MathUtils.random(-20, 20)));
+<pre lang="java"><code>
+// Initialize all the boids for the example
+for(int i=0; i<BOID_AMOUNT; i++){
+  // Create New Boid
+  Boid bird = new Boid(image, new Vector2D(MathUtils.random(0, w), MathUtils.random(0, h)),
+                                 new Vector2D(MathUtils.random(-20, 20), MathUtils.random(-20, 20)));
+  // Add to the engine
+  engine.addBoid(bird);	
 			
-      // Add to the engine
-      engine.addBoid(bird);	
-			
-      // Add to tracking list
-      boids.add(bird);
-    }
+  // Add to tracking list
+  boids.add(bird);
+}
+</code></pre>
 
 Once you have everything initialized (including rules) you must call the `FlockEngine.update(float delta)` for the engine
 to operate properly. Something like this example:

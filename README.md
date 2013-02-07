@@ -40,6 +40,7 @@ example from the sample project
 
 <pre lang="java"><code>
 // Initialize all the boids for the example
+<<<<<<< HEAD
 for(int i=0; i&lt;BOID_AMOUNT; i++){
 	// Create New Sprite
 	Boid bird = new Boid(image, new Vector2D(MathUtils.random(0, w), MathUtils.random(0, h)), 
@@ -50,6 +51,17 @@ for(int i=0; i&lt;BOID_AMOUNT; i++){
 
 	// Add to tracking list
 	boids.add(bird);
+=======
+for(int i=0; i< BOID_AMOUNT; i++){
+  // Create New Boid
+  Boid bird = new Boid(image, new Vector2D(MathUtils.random(0, w), MathUtils.random(0, h)),
+                                 new Vector2D(MathUtils.random(-20, 20), MathUtils.random(-20, 20)));
+  // Add to the engine
+  engine.addBoid(bird);	
+			
+  // Add to tracking list
+  boids.add(bird);
+>>>>>>> MOAR Readme
 }
 </code></pre>
 

@@ -1,5 +1,4 @@
-r0adkll-flocking
-================
+#r0adkll-flocking
 
 Universal Flocking engine written in java.
 
@@ -40,7 +39,7 @@ example from the sample project
 
     // Initialize all the boids for the example
     for(int i=0; i<BOID_AMOUNT; i++){
-      // Create New Sprite
+      // Create New Boid
       Boid bird = new Boid(image, new Vector2D(MathUtils.random(0, w), MathUtils.random(0, h)),
                       						new Vector2D(MathUtils.random(-20, 20), MathUtils.random(-20, 20)));
 			
@@ -50,6 +49,16 @@ example from the sample project
       // Add to tracking list
       boids.add(bird);
     }
+
+Once you have everything initialized (including rules) you must call the `FlockEngine.update(float delta)` for the engine
+to operate properly. Something like this example:
+
+	public void update(float delta){
+
+		// update the flocking engine
+		engine.update(delta);
+
+	}
 
 ## Documentation
   More to come...

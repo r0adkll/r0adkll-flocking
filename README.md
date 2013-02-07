@@ -11,16 +11,51 @@ This engine was built and tested on the Libgdx framework. The algorithm works us
 This engine allows you set a custom value for each of the three rules allowing your flocking mass to take on any shape 
 that it wants
 
-USAGE
-=====
+## Usage
+  
+    private FlockEngine engine;
+    
+    // Create Flocking Engine and initialize it with all
+    // the basic parameters
+    engine = new FlockEngine();
+		
+    /*
+     * Set the three Reynold flocking rules
+     */
+    engine.setAlignment(0.80f);
+    engine.setCohesion(0.65f);
+    engine.setSeparation(0.60f);
+		
+    /*
+     * Set the boid interaction and seperation distances
+     */
+    engine.setInteractionRadius(30);
+    engine.setSeparationRadius(15);
+		
+    // Set the boid speed limit
+    engine.setSpeedLimit(80);`
+
+After creating the engine, you need to populate it with entities that implement the `Flockable` interface, here is my
+example from the sample project
+
+    // Initialize all the boids for the example
+    for(int i=0; i<BOID_AMOUNT; i++){
+      // Create New Sprite
+      Boid bird = new Boid(image, new Vector2D(MathUtils.random(0, w), MathUtils.random(0, h)),
+                      						new Vector2D(MathUtils.random(-20, 20), MathUtils.random(-20, 20)));
+			
+      // Add to the engine
+      engine.addBoid(bird);	
+			
+      // Add to tracking list
+      boids.add(bird);
+    }
+
+## Documentation
   More to come...
 
+## License
+Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
 
-DOCUMENTATION
-=============
-  More to come...
-
-
-LICENSE
-=======
-  More to come...
+## Authors
+ * Drew Heavner (VeeDubUSC@gmail.com)

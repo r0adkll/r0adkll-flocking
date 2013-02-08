@@ -8,8 +8,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "example";
 		cfg.useGL20 = true;
-		cfg.width = 648;
-		cfg.height = 480;
+		cfg.width = FlockMain.WIDTH;
+		cfg.height = FlockMain.HEIGHT;
 		
 		new LwjglApplication(new FlockMain(), cfg);
 	}

@@ -48,8 +48,13 @@ public class Boid implements Flockable{
 		this.position = pos;
 		this.velocity = vel;
 		this.bounds = new FRectangle(position.x, position.y, image.getRegionWidth(), image.getRegionHeight());
-		System.out.println("New Boid[" + position + "][" + bounds + "]");
 	}
+	
+	
+	/*****************************************************
+	 * Flocking Methods
+	 * 
+	 */
 	
 	
 	@Override

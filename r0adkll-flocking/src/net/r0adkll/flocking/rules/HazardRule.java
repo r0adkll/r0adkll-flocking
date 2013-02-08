@@ -34,7 +34,7 @@ public class HazardRule extends AbstractRule{
 		if (mDistSq < getRadiusSq()) {
 			float mDist = (float) Math.sqrt(mDistSq);
 			// push it away by normalizing the vector from mouse to position, and changing the vector length to factor
-			return new Vector2D((mDiffX/mDist) * _factor, (mDiffY/mDist) * _factor);
+			return new Vector2D(-((mDiffX/mDist) * _factor), -((mDiffY/mDist) * _factor));
 		}
 
 

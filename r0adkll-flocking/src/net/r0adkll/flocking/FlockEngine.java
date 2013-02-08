@@ -54,10 +54,11 @@ public class FlockEngine{
 	// the algorithm control variables
 	float radius = 20f;
 	float sepRadius = 12f;
-	float innerSepRadius = 5;
+	float innerSepRadius = 7;
 	float speedLimit = 80;	
 	
 	// Separation distance variables
+	private float separationDistMinSq = innerSepRadius * innerSepRadius;
 	private float separationDistMaxSq = sepRadius * sepRadius;
 	
 	// The Rule Factors
@@ -103,6 +104,14 @@ public class FlockEngine{
 	public void enableGrid(int gridSize, FRectangle bounds){
 		_boidgrid = new FlockGrid(gridSize, (int)bounds.getWidth(), (int)bounds.getHeight());
 		isGridEnabled = true;
+		
+		for(AbstractRule rule: _rules){
+			if(rule instanceof BoundRule){
+				rule = new BoundRule(bounds, 75);
+				return;
+			}
+		}
+		
 		BoundRule brule = new BoundRule(bounds, 75);
 		addRule(brule);
 	}
@@ -145,6 +154,9 @@ public class FlockEngine{
 			// Update Rect
 			boid.getBounds().setX(boid.getPosition().x);
 			boid.getBounds().setY(boid.getPosition().y);
+			
+			// Update Grid
+			if(isGridEnabled) _boidgrid.update(boid);
 		}
 	}
 	
@@ -201,6 +213,11 @@ public class FlockEngine{
 	 */
 	public void setInteractionRadius(float radii){
 		radius = radii;
+	}
+	
+	public void setInnerSeperationRadius(float radii){
+		innerSepRadius = radii;
+		separationDistMinSq = innerSepRadius * innerSepRadius;
 	}
 	
 	/**
@@ -274,6 +291,16 @@ public class FlockEngine{
 	 * @param rule		the rule to add
 	 */
 	public void addRule(AbstractRule rule){
+		// Safety check to only allow ONE Bound rule at a time
+		if(rule instanceof BoundRule){
+			for(AbstractRule r: _rules){
+				if(rule instanceof BoundRule){
+					rule = new BoundRule(((BoundRule)rule).getBounds(), 75);
+					return;
+				}
+			}
+		}
+		
 		_rules.add(rule);
 	}
 	
@@ -344,10 +371,10 @@ public class FlockEngine{
 	    				separationCount++;
 	    				
 	    				// This causes unwanted results in the flocking algorithm, so it is excluded for now (possible deletion)
-//	    				if (distSq < separationDistMinSq) { // avoid being too close to any particular bird
-//	    					separationSum.add(Vector2D.mult(boid.position, 20)); // PVector.mult(other,12) 
-//	    					separationCount += 20;
-//	    				} // separation minimum
+	    				if (distSq < separationDistMinSq) { // avoid being too close to any particular bird
+	    					separationSum.add(Vector2D.mult(boid.getPosition(), 10)); // PVector.mult(other,12) 
+	    					separationCount += 10;
+	    				} // separation minimum
 	    				
 	    				
 	    			} // separation dist check

@@ -32,6 +32,14 @@ public class BoundRule extends AbstractRule{
 		_factor = factor;
 	}
 	
+	/**
+	 * Get the Bounds of the Bound Rule
+	 * @return		the rectangle bound
+	 */
+	public FRectangle getBounds(){
+		return _rect;
+	}
+	
 	@Override
 	public Vector2D applyRule(Flockable boid) {
 		XMIN = _rect.getX();

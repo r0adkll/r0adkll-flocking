@@ -72,7 +72,7 @@ public class Boid implements Flockable{
 		bounds.x = position.x;
 		bounds.y = position.y;
 		bounds.width = image.getRegionWidth();
-		bounds.height = image.getRegionHeight();
+		bounds.height =image.getRegionHeight();
 		return bounds;
 	}
 

@@ -95,7 +95,7 @@ public class FlockMain implements ApplicationListener , InputProcessor{
 		/*
 		 * Set the boid interaction and seperation distances
 		 */
-		engine.setInteractionRadius(25);
+		engine.setInteractionRadius(18);
 		engine.setSeparationRadius(12);
 		engine.setInnerSeperationRadius(7);
 		

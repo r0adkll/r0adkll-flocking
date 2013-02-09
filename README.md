@@ -65,11 +65,11 @@ public void update(float delta){
 }
 </code></pre>
 
-## Documentation
-  More to come...
+Another control mechanism for the flocking engine are 'Rules' which all start with the base class `AbstractRule`, to see 
+how to use rules in the engine, check out my guide on [Using Rules](https://github.com/r0adkll/r0adkll-flocking/wiki/Using-Rules)
 
 ## License
-Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+ * Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
 
 ## Authors
  * Drew Heavner (VeeDubUSC@gmail.com)

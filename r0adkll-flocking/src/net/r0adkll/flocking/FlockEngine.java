@@ -126,6 +126,7 @@ public class FlockEngine{
 	 * Update the Flock Controller
 	 * @param elapsed	the frame elapsed time
 	 */
+	private Vector2D ruleResult = null;
 	public void update(float elapsed){
 		for(int i=0; i<_boidflock.size(); i++){
 			Flockable boid = _boidflock.get(i);
@@ -135,9 +136,9 @@ public class FlockEngine{
 			
 			// Apply all the user set rules
 			for(int r=0; r<_rules.size(); r++){
-				Vector2D result = _rules.get(r).applyRule(boid);
-				if(result != null){
-					acceleration.add(result);
+				ruleResult = _rules.get(r).applyRule(boid);
+				if(ruleResult != null){
+					acceleration.add(ruleResult);
 				}
 			}
 						
@@ -318,6 +319,21 @@ public class FlockEngine{
 	 * Flocking Rule Methods
 	 */
 	
+	/*******
+	 * Rule Variables
+	 */
+	// TODO: Convert these to 'cache' variables
+	private Vector2D cohesionSum = new Vector2D();		// Alignment 
+	private Vector2D alignmentSum = new Vector2D();		// Seperation
+	private Vector2D separationSum = new Vector2D();		// Cohesion
+	private Vector2D acceleration = new Vector2D(); // Acceleration
+
+	// TODO: Convert these to 'cache' variables
+	private int alignmentCount = 0;
+	private int separationCount = 0;
+	private int cohesionCount = 0;
+	
+	List<Flockable> nearby = null;
 	
 	/**
 	 * Apply all the Reynold's Rules to the boid
@@ -332,16 +348,18 @@ public class FlockEngine{
 	 */
 	public Vector2D applyReynoldRules(Flockable boid){
 		
-		Vector2D cohesionSum = new Vector2D();		// Alignment 
-		Vector2D alignmentSum = new Vector2D();		// Seperation
-		Vector2D separationSum = new Vector2D();		// Cohesion
-		Vector2D acceleration = new Vector2D(); // Acceleration
+		// Reset Sum Values
+		cohesionSum.set(0, 0);
+		alignmentSum.set(0, 0);
+		separationSum.set(0, 0);
+		acceleration.set(0, 0);
 		
-		int alignmentCount = 0;
-		int separationCount = 0;
-		int cohesionCount = 0;
+		// Reset Count Variables
+		alignmentCount = 0;
+		separationCount = 0;
+		cohesionCount = 0;		
 		
-		List<Flockable> nearby = null;
+		
 		if(!isGridEnabled){
 			nearby = _boidflock;
 		}else{
@@ -349,8 +367,12 @@ public class FlockEngine{
 		}
 		//System.out.println("Nearby Birds: " + nearby.size());
 		for(int i=0; i<nearby.size(); i++){
+			
+			// TODO: Create a 'cache' variable for this
 			Flockable ent = nearby.get(i);
 			if(ent != boid){
+				
+				// TODO: Potentially create a 'cache' variable for this
 				float distSq = boid.getPosition().distSq(ent.getPosition());
 				
 				// Main Distance Check
@@ -374,8 +396,7 @@ public class FlockEngine{
 	    				if (distSq < separationDistMinSq) { // avoid being too close to any particular bird
 	    					separationSum.add(Vector2D.mult(boid.getPosition(), 10)); // PVector.mult(other,12) 
 	    					separationCount += 10;
-	    				} // separation minimum
-	    				
+	    				} // separation minimum	    				
 	    				
 	    			} // separation dist check
 	    		} // dist check
@@ -387,6 +408,7 @@ public class FlockEngine{
 			// Average the position
 			cohesionSum.div(cohesionCount);
 			
+			// TODO: Convert to 'cache' variable
 			// find the vector between teh average position of this bird's position
 			Vector2D desired = Vector2D.sub(boid.getPosition(),cohesionSum); 
 
@@ -422,6 +444,7 @@ public class FlockEngine{
 			// Avg out the surrounding birds positions
 			separationSum.div(separationCount);
 			
+			// TODO: Convert to 'cache' variable
 			// Find the vector between this bird and the avg position
 			Vector2D desired = Vector2D.sub(boid.getPosition(), separationSum);
 			desired.mult(separation);
@@ -438,8 +461,9 @@ public class FlockEngine{
 	 * Limit the Velocity on the boid
 	 * @param boid
 	 */
+	float velMagSq = 0;
 	public void limitSpeed(Flockable boid){
-		float velMagSq = boid.getVelocity().magSq();
+		velMagSq = boid.getVelocity().magSq();
 	    if (velMagSq > (speedLimit * speedLimit)) {
 	    	float velMag = (float) Math.sqrt(velMagSq);
 	    	boid.getVelocity().x = (boid.getVelocity().x / velMag) * speedLimit;

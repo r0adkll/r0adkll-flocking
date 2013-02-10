@@ -39,14 +39,18 @@ public class BoundRule extends AbstractRule{
 	public FRectangle getBounds(){
 		return _rect;
 	}
-	
+
+	private Vector2D v = new Vector2D();
 	@Override
 	public Vector2D applyRule(Flockable boid) {
 		XMIN = _rect.getX();
 		XMAX = _rect.getX() + _rect.getWidth();
 		YMIN = _rect.getY();
 		YMAX = _rect.getY() + _rect.getHeight();
-		Vector2D v = new Vector2D();
+		
+		// Reset Vector
+		v.set(0, 0);
+		
 		if(boid.getPosition().x < XMIN){
 			v.x = _factor;
 		}else if(boid.getPosition().x > XMAX){

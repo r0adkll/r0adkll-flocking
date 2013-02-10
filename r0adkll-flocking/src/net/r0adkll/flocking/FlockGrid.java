@@ -127,9 +127,15 @@ public class FlockGrid {
 				// add the object and remove the object from its former cell
 				grid[cellX][cellY].add(object);
 				grid[oldCellX][oldCellY].remove(object);
-				// memorize which cell the object is in
-				cells.put(object, new Vector2D(cellX, cellY));
 				
+				// memorize which cell the object is in
+				Vector2D oldVal = cells.get(object);
+				if(oldVal != null){
+					oldVal.set(cellX, cellY);
+					cells.put(object, oldVal);
+				}else{
+					cells.put(object, new Vector2D(cellX, cellY));
+				}
 				//System.out.println("Object Changed Cells[" + oldCellX + "," + oldCellY + "] -to- [" + cellX + "," + cellY + "]");
 				
 			}
@@ -141,8 +147,11 @@ public class FlockGrid {
 	 * goes through each cell adjacent to the current cell, and the current cell,
 	 * and generates a list of objects contained in those cells
 	 */
+	private List<Flockable> nearBy = new ArrayList<Flockable>();
+	private int _size = 0;
 	public List<Flockable> nearByObjects (float x, float y) {
-		List<Flockable> nearBy = new ArrayList<Flockable>();
+		nearBy.clear();
+		
 		int cellX = (int)(x / cellSize);
 		int cellY = (int)(y / cellSize);
 
@@ -150,23 +159,26 @@ public class FlockGrid {
 			// center column
 			if (cellY >= 0 && cellY < grid[cellX].length) {
 				// middle
-				for (Flockable object : grid[cellX][cellY]){
-					nearBy.add(object);
+				_size = grid[cellX][cellY].size();
+				for (int i=0; i<_size; i++){
+					nearBy.add(grid[cellX][cellY].get(i));
 					//System.out.println("Bird middle[" + cellX + "," + cellY + "]");
 				}
 				// top
 				// cellY+1 >= 0 can be assumed since cellY >= 0 is checked in this block
 				if (cellY+1 < grid[cellX].length) {
-					for (Flockable object : grid[cellX][cellY + 1]){
-						nearBy.add(object);
+					_size = grid[cellX][cellY + 1].size();
+					for (int i=0; i<_size; i++){
+						nearBy.add(grid[cellX][cellY + 1].get(i));
 						//System.out.println("Bird top[" + cellX + "," + (cellY+1) + "]");
 					}
 				}
 			}
 			// bottom
 			if (cellY-1 >= 0 && cellY-1 < grid[cellX].length) {
-				for (Flockable object : grid[cellX][cellY - 1]){
-					nearBy.add(object);
+				_size = grid[cellX][cellY - 1].size();
+				for (int i=0; i<_size; i++){
+					nearBy.add(grid[cellX][cellY - 1].get(i));
 					//System.out.println("Bird bottom[" + cellX + "," + (cellY-1) + "]");
 				}
 			}
@@ -175,22 +187,25 @@ public class FlockGrid {
 			if (cellX+1 < grid.length) {
 				if (cellY >= 0 && cellY < grid[cellX + 1].length) {
 					// middle right
-					for (Flockable object : grid[cellX + 1][cellY]){
-						nearBy.add(object);
+					_size = grid[cellX + 1][cellY].size();
+					for (int i=0; i<_size; i++){
+						nearBy.add(grid[cellX + 1][cellY].get(i));
 						//System.out.println("Bird middleright[" + (cellX + 1) + "," + cellY + "]");
 					}
 					if (cellY+1 < grid[cellX + 1].length) {
 						// top right
-						for (Flockable object : grid[cellX + 1][cellY + 1]){
-							nearBy.add(object);
+						_size = grid[cellX + 1][cellY + 1].size();
+						for (int i=0; i<_size; i++){
+							nearBy.add(grid[cellX + 1][cellY + 1].get(i));
 							//System.out.println("Bird topright[" + (cellX + 1) + "," + (cellY+1) + "]");
 						}
 					}
 				}
 				if (cellY-1 >= 0 && cellY-1 < grid[cellX + 1].length) {
 					// bottom right
-					for (Flockable object : grid[cellX + 1][cellY - 1]){
-						nearBy.add(object);
+					_size = grid[cellX + 1][cellY - 1].size();
+					for (int i=0; i<_size; i++){
+						nearBy.add(grid[cellX + 1][cellY - 1].get(i));
 						//System.out.println("Bird bottomright[" + (cellX + 1) + "," + (cellY-1) + "]");
 					}
 				}
@@ -201,23 +216,26 @@ public class FlockGrid {
 		if (cellX-1 >= 0 && cellX-1 < grid.length) {
 			if (cellY >= 0 && cellY < grid[cellX - 1].length) {
 				// center left
-				for (Flockable object : grid[cellX - 1][cellY]){
-					nearBy.add(object);
+				_size = grid[cellX - 1][cellY].size();
+				for (int i=0; i<_size; i++){
+					nearBy.add(grid[cellX - 1][cellY].get(i));
 					//System.out.println("Bird centerleft[" + (cellX - 1) + "," + (cellY) + "]");
 				}
 				
 				// top left
 				if (cellY+1 < grid[cellX - 1].length) {
-					for (Flockable object : grid[cellX - 1][cellY + 1]){
-						nearBy.add(object);
+					_size = grid[cellX - 1][cellY + 1].size();
+					for (int i=0; i<_size; i++){
+						nearBy.add(grid[cellX - 1][cellY + 1].get(i));
 						//System.out.println("Bird topleft[" + (cellX - 1) + "," + (cellY + 1) + "]");
 					}
 				}
 			}
 			if (cellY-1 >= 0 && cellY-1 < grid[cellX - 1].length) {
 				// bottom left
-				for (Flockable object : grid[cellX - 1][cellY - 1]){
-					nearBy.add(object);
+				_size = grid[cellX - 1][cellY - 1].size();
+				for (int i=0; i<_size; i++){
+					nearBy.add(grid[cellX - 1][cellY - 1].get(i));
 					//System.out.println("Bird bottomleft[" + (cellX - 1) + "," + (cellY - 1) + "]");
 				}
 			}

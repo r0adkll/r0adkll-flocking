@@ -7,6 +7,14 @@ package net.r0adkll.flocking.utils;
  * @author r0adkll
  */
 public class Vector2D {
+	
+	/**
+	 * Constants and Cache Variables
+	 */
+	private static Vector2D cache1 = new Vector2D();
+	private static Vector2D cache2 = new Vector2D();
+	private static Vector2D cache3 = new Vector2D();
+	private static Vector2D cache4 = new Vector2D();
 
 	/**
 	 * Variables
@@ -180,12 +188,16 @@ public class Vector2D {
 	
 	/****************************************************************************
 	 * Static Vector Methods
+	 * 
+	 * TODO: Convert return variables to static cache vars
+	 * 
 	 */
 	
 	public static Vector2D add(Vector2D v1, Vector2D v2){
 		float x = v1.x + v2.x;
 		float y = v1.y + v2.y;
-		return new Vector2D(x,y);
+		cache1.set(x, y);
+		return cache1;
 	}
 	
 	/**
@@ -197,19 +209,25 @@ public class Vector2D {
 	public static Vector2D sub(Vector2D v1, Vector2D v2){
 		float x = v1.x - v2.x;
 		float y = v1.y - v2.y;
-		return new Vector2D(x,y);
+		cache2.set(x, y);
+		return cache2;
+		//return new Vector2D(x,y);
 	}
 	
 	public static Vector2D mult(Vector2D v, float scalar){
 		float x = v.x * scalar;
 		float y = v.y * scalar;
-		return new Vector2D(x,y);
+		cache3.set(x,y);
+		return cache3;
+		//return new Vector2D(x,y);
 	}
 	
 	public static Vector2D div(Vector2D v, float scalar){
 		float nx = v.x * (1/scalar);
 		float ny = v.y * (1/scalar);
-		return new Vector2D(nx, ny);
+		cache4.set(nx, ny);
+		return cache4;
+		//return new Vector2D(nx, ny);
 	}
 	
 	

@@ -36,8 +36,8 @@ public class FlockMain implements ApplicationListener , InputProcessor{
 	 * Constants
 	 */
 	private static final float FRAMERATE = 1f/60f;
-	private static final int BOID_AMOUNT = 1200;
-	private static final int GRID_SIZE = 18;
+	private static final int BOID_AMOUNT = 500;
+	private static final int GRID_SIZE = 20;
 	
 	public static final int WIDTH = 640;
 	public static final int HEIGHT = 480;
@@ -56,6 +56,7 @@ public class FlockMain implements ApplicationListener , InputProcessor{
 	private HazardRule touchHazard;
 	private TouchTracker touch = new TouchTracker();
 	
+	
 	private TextureRegion image;
 	private List<Boid> boids;
 	private float elapsed;
@@ -64,6 +65,7 @@ public class FlockMain implements ApplicationListener , InputProcessor{
 	public void create() {			
 		// Set this class as an input processor
 		Gdx.input.setInputProcessor(this);
+		
 		
 		// Initialize Variables and such
 		boids = new ArrayList<Boid>();
@@ -146,8 +148,8 @@ public class FlockMain implements ApplicationListener , InputProcessor{
 		}
 
 		// Call Render
-		//debugDraw(Gdx.graphics.getDeltaTime());
 		draw(Gdx.graphics.getDeltaTime());
+		//debugDraw(Gdx.graphics.getDeltaTime());
 	}
 	
 	/**
@@ -160,7 +162,6 @@ public class FlockMain implements ApplicationListener , InputProcessor{
 		
 		// update the flocking engine
 		engine.update(delta);
-		
 	}
 	
 	/**
@@ -176,8 +177,8 @@ public class FlockMain implements ApplicationListener , InputProcessor{
 		batch.begin();
 
 		// Render all the Flocking Boids
-		for(Boid s: boids){
-			s.draw(batch);
+		for(int i=0;i<boids.size(); i++){
+			boids.get(i).draw(batch);
 		}
 		
 		// Draw the Average Frames Per Second
@@ -191,8 +192,9 @@ public class FlockMain implements ApplicationListener , InputProcessor{
 	 * @param delta
 	 */
 	public void debugDraw(float delta){
-		shapeBatch.setProjectionMatrix(camera.combined);
+		//shapeBatch.setProjectionMatrix(camera.combined);
 		shapeBatch.setColor(Color.WHITE);
+		
 		shapeBatch.begin(ShapeType.Line);
 		
 		// Render Debug Lines
@@ -276,6 +278,8 @@ public class FlockMain implements ApplicationListener , InputProcessor{
 		}else if(button == Input.Buttons.RIGHT){
 			engine.removeRule(touchHazard);
 		}
+		
+		
 		
 		return false;
 	}

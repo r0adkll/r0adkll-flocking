@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>R0adkll-flocking by r0adkll</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>R0adkll-flocking</h1>
+        <h2>Universal Java Flocking Engine </h2>
+
+        <section id="downloads">
+          <a href="https://github.com/r0adkll/r0adkll-flocking/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/r0adkll/r0adkll-flocking/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/r0adkll/r0adkll-flocking" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="r0adkll-flocking" class="anchor" href="#r0adkll-flocking"><span class="octicon octicon-link"></span></a>r0adkll-flocking</h1>
+
+<p>Universal Flocking engine written in java.</p>
+
+<p>This engine was built and tested on the Libgdx framework. The algorithm works using Reynold's Three Rules</p>
+
+<ol>
+<li> Cohesion</li>
+<li> Alignment</li>
+<li> Seperation</li>
+</ol><p>This engine allows you set a custom value for each of the three rules allowing your flocking mass to take on any shape 
+that it wants</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<div class="highlight"><pre>
+<span class="kd">private</span> <span class="n">FlockEngine</span> <span class="n">engine</span><span class="o">;</span>
+  
+<span class="c1">// Create Flocking Engine and initialize it with all</span>
+<span class="c1">// the basic parameters</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FlockEngine</span><span class="o">();</span>
+        
+<span class="cm">/*</span>
+<span class="cm"> * Set the three Reynold flocking rules</span>
+<span class="cm"> */</span>
+<span class="n">engine</span><span class="o">.</span><span class="na">setAlignment</span><span class="o">(</span><span class="mf">0.80f</span><span class="o">);</span>
+<span class="n">engine</span><span class="o">.</span><span class="na">setCohesion</span><span class="o">(</span><span class="mf">0.65f</span><span class="o">);</span>
+<span class="n">engine</span><span class="o">.</span><span class="na">setSeparation</span><span class="o">(</span><span class="mf">0.60f</span><span class="o">);</span>
+        
+<span class="cm">/*</span>
+<span class="cm"> * Set the boid interaction and seperation distances</span>
+<span class="cm"> */</span>
+<span class="n">engine</span><span class="o">.</span><span class="na">setInteractionRadius</span><span class="o">(</span><span class="mi">30</span><span class="o">);</span>
+<span class="n">engine</span><span class="o">.</span><span class="na">setSeparationRadius</span><span class="o">(</span><span class="mi">15</span><span class="o">);</span>
+        
+<span class="c1">// Set the boid speed limit</span>
+<span class="n">engine</span><span class="o">.</span><span class="na">setSpeedLimit</span><span class="o">(</span><span class="mi">80</span><span class="o">);</span> 
+</pre></div>        
+
+<p>After creating the engine, you need to populate it with entities that implement the <code>Flockable</code> interface, here is my
+example from the sample project</p>
+
+<div class="highlight"><pre>
+<span class="c1">// Initialize all the boids for the example</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">BOID_AMOUNT</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+    <span class="c1">// Create New Sprite</span>
+    <span class="n">Boid</span> <span class="n">bird</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Boid</span><span class="o">(</span><span class="n">image</span><span class="o">,</span> <span class="k">new</span> <span class="n">Vector2D</span><span class="o">(</span><span class="n">MathUtils</span><span class="o">.</span><span class="na">random</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">w</span><span class="o">),</span> <span class="n">MathUtils</span><span class="o">.</span><span class="na">random</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">h</span><span class="o">)),</span> 
+                                <span class="k">new</span> <span class="nf">Vector2D</span><span class="o">(</span><span class="n">MathUtils</span><span class="o">.</span><span class="na">random</span><span class="o">(-</span><span class="mi">20</span><span class="o">,</span> <span class="mi">20</span><span class="o">),</span> <span class="n">MathUtils</span><span class="o">.</span><span class="na">random</span><span class="o">(-</span><span class="mi">20</span><span class="o">,</span> <span class="mi">20</span><span class="o">)));</span>
+
+    <span class="c1">// Add to the engine</span>
+    <span class="n">engine</span><span class="o">.</span><span class="na">addBoid</span><span class="o">(</span><span class="n">bird</span><span class="o">);</span>   
+
+    <span class="c1">// Add to tracking list</span>
+    <span class="n">boids</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">bird</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>Once you have everything initialized (including rules) you must call the <code>FlockEngine.update(float delta)</code> for the engine
+to operate properly. Something like this example:</p>
+
+<div class="highlight"><pre>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="kt">float</span> <span class="n">delta</span><span class="o">){</span>
+
+  <span class="c1">// update the flocking engine</span>
+  <span class="n">engine</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">delta</span><span class="o">);</span>
+
+<span class="o">}</span>
+</pre></div>
+
+<p>Another control mechanism for the flocking engine are 'Rules' which all start with the base class <code>AbstractRule</code>, to see 
+how to use rules in the engine, check out my guide on <a href="https://github.com/r0adkll/r0adkll-flocking/wiki/Using-Rules">Using Rules</a></p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<ul>
+<li>Apache License, Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)</li>
+</ul><h2>
+<a name="authors" class="anchor" href="#authors"><span class="octicon octicon-link"></span></a>Authors</h2>
+
+<ul>
+<li>Drew Heavner (<a href="mailto:VeeDubUSC@gmail.com">VeeDubUSC@gmail.com</a>)</li>
+</ul>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
